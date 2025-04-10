@@ -5,7 +5,6 @@ function TestOne() {
   const [selectedOption, setSelectedOption] = useState(null);
   const [WrongAnswer, setWrongAnswers] = useState([]);
   const [RightAnswer, setRightAnswers] = useState([]);
-
   const [timer, setTimer] = useState(30);
   const [score, setScore] = useState(0);
   const [quizCompleted, setQuizCompleted] = useState(false);
@@ -73,58 +72,74 @@ function TestOne() {
   };
 
   return (
-    <div className="quiz-container">
-      <div className="quiz-box">
+    <>
+    <h1 className='flex justify-center font-bold text-3xl p-4' >Made by Tayyab</h1>
+  
+  <div className="min-h-screen flex items-center justify-center bg-gray-100 p-4">
+     
+      <div className="w-full max-w-3xl bg-white rounded-lg shadow-md p-6">
         {!quizCompleted ? (
           <>
-            <h1 className="question-text">{currentQ.id}. {currentQ.question}</h1>
-            <div className="options-container">
+            <h1 className="text-xl sm:text-2xl md:text-3xl font-semibold mb-6">
+              {currentQ.id}. {currentQ.question}
+            </h1>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
               {currentQ.options.map((option, index) => (
                 <button
                   key={index}
                   onClick={() => handleOptionClick(option)}
-                  className={`option-btn ${selectedOption === option
-                    ? option === currentQ.answer ? "correct" : "wrong"
-                    : "default"
+                  className={`py-2 px-4 rounded-lg border text-sm sm:text-base font-medium transition-colors duration-300 
+                  ${selectedOption === option
+                      ? option === currentQ.answer
+                        ? "bg-green-500 text-white"
+                        : "bg-red-500 text-white"
+                      : "bg-gray-200 hover:bg-blue-500 hover:text-white"
                     }`}
                 >
                   {option}
                 </button>
               ))}
             </div>
-            <p className="timer-text">Time Left: {timer}s</p>
-            <p className="total-questions">Total Questions: {AllQuestions.length}</p>
+            <div className="flex justify-between text-sm text-gray-600 mt-4">
+              <p>Time Left: <span className="font-semibold">{timer}s</span></p>
+              <p>Total Questions: {AllQuestions.length}</p>
+            </div>
           </>
         ) : (
           <>
-            <h2>Quiz Completed!</h2>
-            <p className="result-text">
-              Your Score: {score}/{AllQuestions.length} - {score > 5 ? "Pass" : "Fail"}
+            <h2 className="text-2xl font-bold text-center mb-4">Quiz Completed!</h2>
+            <p className="text-center text-lg mb-6">
+              Your Score: <span className="font-bold">{score}/{AllQuestions.length}</span> - {score > 5 ? "🎉 Pass" : "❌ Fail"}
             </p>
 
-            <div className="result-section">
-              <h3>Correct Answers:</h3>
-              {RightAnswer.map((item, index) => (
-                <div key={index} className="answer correct-answer">
-                  <p><strong>Q:</strong> {item.question}</p>
-                  <p><strong>Your Answer:</strong> {item.selected}</p>
-                </div>
-              ))}
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold text-green-600 mb-2">Correct Answers:</h3>
+                {RightAnswer.map((item, index) => (
+                  <div key={index} className="bg-green-100 p-4 rounded mb-2">
+                    <p><strong>Q:</strong> {item.question}</p>
+                    <p><strong>Your Answer:</strong> {item.selected}</p>
+                  </div>
+                ))}
+              </div>
 
-              <h3>Wrong Answers:</h3>
-              {WrongAnswer.map((item, index) => (
-                <div key={index} className="answer wrong-answer">
-                  <p><strong>Q:</strong> {item.question}</p>
-                  <p><strong>Your Answer:</strong> {item.selected}</p>
-                  <p><strong>Correct Answer:</strong> {item.correctAnswer}</p>
-                </div>
-              ))}
+              <div>
+                <h3 className="text-xl font-semibold text-red-600 mb-2">Wrong Answers:</h3>
+                {WrongAnswer.map((item, index) => (
+                  <div key={index} className="bg-red-100 p-4 rounded mb-2">
+                    <p><strong>Q:</strong> {item.question}</p>
+                    <p><strong>Your Answer:</strong> {item.selected}</p>
+                    <p><strong>Correct Answer:</strong> {item.correctAnswer}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </>
         )}
       </div>
     </div>
-  );
+
+    </>  );
 }
 
 export default TestOne;
